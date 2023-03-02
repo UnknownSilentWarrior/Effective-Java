@@ -5,7 +5,8 @@ import java.util.Objects;
 
 // Subclass with hierarchical builder (Page 15)
 public class NyPizza extends Pizza {
-  public enum Size { SMALL, MEDIUM, LARGE }
+  public enum Size {SMALL, MEDIUM, LARGE}
+
   private final Size size;
 
   public static class Builder extends Pizza.Builder<Builder> {
@@ -15,11 +16,15 @@ public class NyPizza extends Pizza {
       this.size = Objects.requireNonNull(size);
     }
 
-    @Override public NyPizza build() {
+    @Override
+    public NyPizza build() {
       return new NyPizza(this);
     }
 
-    @Override protected Builder self() { return this; }
+    @Override
+    protected Builder self() {
+      return this;
+    }
   }
 
   private NyPizza(Builder builder) {
@@ -27,7 +32,8 @@ public class NyPizza extends Pizza {
     size = builder.size;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "New York Pizza with " + toppings;
   }
 }

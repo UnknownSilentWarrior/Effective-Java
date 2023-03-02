@@ -1,4 +1,5 @@
 package ch2creation.item2builder.hierarchies;
+
 // Subclass with hierarchical builder (Page 15)
 public class Calzone extends Pizza {
   private final boolean sauceInside;
@@ -11,11 +12,15 @@ public class Calzone extends Pizza {
       return this;
     }
 
-    @Override public Calzone build() {
+    @Override
+    public Calzone build() {
       return new Calzone(this);
     }
 
-    @Override protected Builder self() { return this; }
+    @Override
+    protected Builder self() {
+      return this;
+    }
   }
 
   private Calzone(Builder builder) {
@@ -23,7 +28,8 @@ public class Calzone extends Pizza {
     sauceInside = builder.sauceInside;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return String.format("Calzone with %s and sauce on the %s",
             toppings, sauceInside ? "inside" : "outside");
   }
