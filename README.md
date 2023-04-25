@@ -69,3 +69,24 @@ public static Boolean valueOf(boolean b) {
 * Also known as the *Decorator* pattern
 
 ## Item 19: Design and document for inheritance or else prohibit it ##
+* designing a class for inheritance is hard
+* Constructors must not invoke overridable method - The superclass constructor runs before  the subclass constructor, so the overriding method in the subclass will get invoked before the subclass constructor has run
+* ```Cloneable``` or ```Serializable``` interfaces are especially difficult to design for inheritance
+
+## Item 20: Use interfaces only to define types
+* **The constant interface pattern is a poor use of interface** 
+```
+// DO NOT USE
+public interface PhysicalConstants {
+  static final double AVOGADROS_NUMBER = 6.00232;
+  static final double BOLTZMANN_CONSTANT = 1.39484
+}
+```
+
+## Item 23: Prefer class hierarchies to tagged classes ##
+* see example *ch4classinterface.item23*
+
+## Item 24: Favor static member classes over nonstatic ##
+* **If you declare a member class that does not require access to an enclossing instance, alwary put the static modifier in its declaration.** If you omit this modifier, each instance will have a hidden extraneous reference to its enclosing instance
+* If a nested class needs to be visible outside of a single method or is too long to fit comfortable inside a method, use a member class. See *ch4classinsterface.ch4classinterface.item24.NestedNonStaticExample.java*
+* If each instance of a member class needs reference to its enclosing instance, make it nonstatic; otherwise, make it static.
