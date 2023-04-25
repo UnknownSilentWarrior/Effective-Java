@@ -2,7 +2,7 @@
 
 ## Item 1 - Consider static factory methods instead of constructors ##
 Example of static factory method:
-```
+```java
 public static Boolean valueOf(boolean b) {
     return b ? Boolean.TRUE : Boolean.FLASE;
 }
@@ -75,7 +75,7 @@ public static Boolean valueOf(boolean b) {
 
 ## Item 20: Use interfaces only to define types
 * **The constant interface pattern is a poor use of interface** 
-```
+```java
 // DO NOT USE
 public interface PhysicalConstants {
   static final double AVOGADROS_NUMBER = 6.00232;
@@ -84,7 +84,7 @@ public interface PhysicalConstants {
 ```
 
 ## Item 23: Prefer class hierarchies to tagged classes ##
-* see example *ch4classinterface.item23*
+* see example [ch4classinterface.item23](https://github.com/UnknownSilentWarrior/Effective-Java/tree/main/src/main/java/ch4classinterface/item23)
 
 ## Item 24: Favor static member classes over nonstatic ##
 * **If you declare a member class that does not require access to an enclossing instance, alwary put the static modifier in its declaration.** If you omit this modifier, each instance will have a hidden extraneous reference to its enclosing instance
