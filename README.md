@@ -20,10 +20,11 @@ public static Boolean valueOf(boolean b) {
 
 ## Item 2 - Consider a builder when faced with many constructor params ##
 * almost always start with a builder in the first place
-  * especially so if we have more hant a handful params
+  * especially so if we have more than a handful params
   * client code much easier to read and write than telescoping constructors
   * builder are much safer than JavaBean
-  
+  * Create Builder object by passing the mandatory fields in the constructor
+  * Set values for the Optional fields using the setter like method in the Builder class
 ## Item 6 - Avoid creating unnecessary objects ##
 * creating unnecessary objects can be avoided by using static factory method 
 * some object creations are much more expensive than others
