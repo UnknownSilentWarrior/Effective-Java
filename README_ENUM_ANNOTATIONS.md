@@ -1,4 +1,4 @@
-# Chapter 5: Generic #
+# Chapter 6: Enums and Annotations #
 
 ## Item 30: Favor generic methods ##
 * The type bound `<E extends Comparable<E>>` may be read as "any type E that can be compared to itself,"
