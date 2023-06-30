@@ -21,8 +21,7 @@ public class NestedNonStaticExample {
       this.nonStaticName = nonStaticName;
     }
 
-    public String getNameWithOuter() {
-      // 정규화된 this 를 이용해서 바깥 클래스의 인스턴스 메서드를 사용할 수 있다.
+    public String getNameWithOuter() {    
       return nonStaticName + NestedNonStaticExample.this.getName();
     }
   }
