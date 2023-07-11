@@ -1,104 +1,170 @@
 # Chapter 6: Enums and Annotations #
 
-## Item 30: Favor generic methods ##
-* The type bound `<E extends Comparable<E>>` may be read as "any type E that can be compared to itself,"
-
-## Item 31: Use bounded wildcards to increase API flexibility ##
-Parameterized types are invariant. Ie `List<String>` is not a subtype of `List<Object>`
+## Item 34: Use enums instead of int constants ##
+Strategy enum pattern Use it, if multiple enum constants share common behaviors.
 
 ```java
-public void pushAll(Iterable<E> src){
-  for(E e : src)
-    push(e)
+
+enum PayrollDay{
+  MONDAY(PayType.WEEKDAY),
+  TUESDAY(PayType.WEEKDAY),
+		...
+  SATURDAY(PayType.WEEKEND),
+  SUNDAY(PayType.WEEKEND);
+
+  private final PayType payType;
+
+  PayrollDay(PayType payType) {this.payType = payType;}
+
+  double pay(double hoursWorked, double payRate){
+    return payType.pay(hoursWorked, payRate);
+  }
+  //The strategy  enum type
+  private enum PayType{
+    WEEKDAY{
+      double overtimePay(double hours, double payRate) { return ...}
+    };
+    WEEKEND{
+      double overtimePay(double hours, double payRate) { return ...}
+    };
+    private static final int HOURS_PER_SHIFT = 8;
+
+    abstract double overtimePay(double hours, double payRate);
+
+    double pay(double hoursWorked, double payRate){
+      double basePay = hoursWorked * payRate;
+      return basePay + overtimePay(hoursWorked, payRate);
+    }
+  }
 }
-
-// Integer is a subtype of Number
-Stack<Number> numberStack = new Stack<Number>();
-Iterable<Integer> integers = ...
-numberStack.pushAll(integers); //Error message here: List<Integer> is not a subtype of List<Number>
 ```
-
-**Bounded wildcard type**
-
-**PECS: producer-extends, consumer-super**
-Producer
-
+## Item 35: Use instance fields instead of ordinals ##
+Never derive a value of an enum to its ordinal
 ```java
-public void pushAll(Iterable<? Extends E> src){
-  for (E e : src)
-    push(e);
+public enum Ensemble{
+	SOLO, DUET, TRIO...;
+	public int numberOfMusicians() {return ordinal() + 1}
 }
 ```
-
-Consumer
-
+Better approach
 ```java
-public void popAll(Collection<? super E> dst){
-  while(!isEmpty())
-    dst.add(pop());
-}
-```
-**For maximum flexibility, use wildcard types on input parameters that represent producers or consumers**
-
-**PECS: producer-extends, consumer-super**
-In other word, if a parameterized type represents a T producer, user <? extends T>; if it represents a T consumer, user<? super T>
-If the parameter is a producer and a consumer don't use _wildcards_
-```java
-public Chooser(Collection<? extends T> choices)
-public void popAll(Collection<? super E> dst)
-```
-Never use _wildcards_ in return values.
-
-Type inference in generics
-```java
-Set<Integer> integers =...
-Set<Double> doubles =...
-Set<Number> numbers = union(integers,doubles);//Error
-
-//Needs a 'explicit type parameter'
-Set<Number> numbers = Union.<Number>union(integers,doubles);
-```
-
-Comparable and Comparators are always consumers. Use `Comparable<? super T>` and `Comparator<? super T>`
-
-If a type parameter appears only once in a method declaration, replace it with a wildcard.
-
-## Item 33: Consider typesafe heterogeneous containers ##
-A container for accessing a heterogeneous list of types in a typesafe way.
-
-**API**
-```java
-public class Favorites{
-  public void putFavorites(Class<T> type, T instance);
-  public <T> getFavorite(Class<T> type);
+public enum Ensemble{
+	SOLO(1), DUET(2), TRIO(3)...TRIPLE_QUARTET(12);
+	private final int numberOfMusicians;
+	Ensemble(int size) {this.numberOfMusicians = size;}
+	public int numberOfMusicians() {return numberOfMusicians;}
 }
 ```
 
-**Client**
+## Item 36: Use EnumSet instead of bit fields ##
+Benefit of EnumSet
+* Compactness and Efficiency: EnumSet represents the elements in a bit vector, making it very compact and efficient. It uses less memory compared to other Set implementations.
+* Type Safety: EnumSet provides type safety for enumerated types. By using EnumSet, you can be sure that only the specified enum type elements will be added to the set.
+* Performance: Since EnumSet uses a bit vector representation for its elements, it provides much better performance than other Set implementations when working with enumerated types.
+* Implementation Specific Benefits: EnumSet's implementation using RegularEnumSet and JumboEnumSet provides many benefits
+. All the methods in EnumSet are implemented using these classes and the methods are optimized for the best performance.
 ```java
-Favorites f = new Favorites();
-f.putFavorites(String.class, "JAVA");
-f.putFavorites(Integer.class, 0xcafecace);
-f.putFavorites(Class.class, Favorite.class);
+	public class Text{
+  public enum Style { BOLD, ITALIC, UNDERLINE, STRIKETHROUGH }
 
-String s = f.getFavorites(String.class);
-int i =f.getFavorites(Integer.class);
-Class<?> c = f.getFavorites(Class.class);
+  //Any Set could be passed. Best EnumSet
+  public void applyStyles(Set<Style> styles){ ... }
+}
+
+//Use
+  text.applyStyles(EnumSet.of(Style.BOLD, Style. ITALIC));
 ```
 
-**Implementation**
+## Item 37: Use EnumMap instead of ordinal indexing ##
+Benefit of EnumMap:
+* EnumMap is a specialized implementation of the Map interface in Java that is designed to be used exclusively with keys that are of the enum type. The main benefit of using EnumMap is that it is highly optimized for use with enum keys, being represented internally as an array, leading to better performance than using a general-purpose Map such as HashMap. Additionally, EnumMap stores keys in the natural order of their keys , which is the order in which the enum constants are declared. This can be useful in situations where ordering is important. Overall, using EnumMap can lead to better performance and more efficient use of memory than using a general-purpose Map.
 ```java
-public class Favorites{
-  private Map<Class<?>, Object> favorites = new HashMap<Class<?>, Object>();
+// Java program to illustrate working
+// of EnumMap
 
-	public <T> void putFavorites(Class<T> type, T instance){
-		if(type == null)
-			throw new NullPointerException("Type is null");
-		favorites.put(type, type.cast(instance));//runtime safety with a dynamic cast
+import java.util.*;
+
+class EnumMapExample {
+
+  public enum Days {
+    Sunday,
+    Monday,
+    Tuesday,
+    Wendnesday;
+  }
+
+  public static void main(String[] args)
+  {
+    // Creating an EnumMap of the Days enum
+    EnumMap<Days, Integer> enumMap
+            = new EnumMap<>(Days.class);
+
+    // Insert using put() method
+    enumMap.put(Days.Sunday, 1);
+    enumMap.put(Days.Monday, 2);
+    enumMap.put(Days.Tuesday, 3);
+    enumMap.put(Days.Wednesday, 4);
+
+    // Printing size of EnumMap
+    System.out.println("Size of EnumMap: "
+            + enumMap.size());
+    // Printing the EnumMap
+    for (Map.Entry m : enumMap.entrySet()) {
+      System.out.println(m.getKey() + " "
+              + m.getValue());
+    }
+  }
+}
+```
+
+
+## Item 38:  Emulate *extensible* enums with interfaces ##
+Enums types can not extend another enum types.
+
+Opcodes as a use case of enums extensibility.
+```java
+public interface Operation{
+  double apply(double x, double y);
+}
+public enum BasicOperation implements Operation{
+  PLUS("+"){
+    public double apply(double x, double y) {return x + y}
+  },
+  MINUS("-"){...},TIMES("*"){...},DIVIDE("/"){...};
+
+  private final String symbol;
+  BasicOperation(String symbol){
+    this.symbol = symbol;
+  }
+  @Override
+  public String toString(){ return symbol; }
+}
+```
+BasicOperation is not extensible, but the interface type Operation is, and it is the one used to represent operations in APIs.
+```java
+
+public enum ExtendedOperation implements Operation{
+	EXP("^"){
+		public double apply(double x, double y) {return Math.pow(x,y)}
+	}
+	REMAINDER("%"){
+		public double apply(double x, double y) {return x % y}
 	}
 
-	public <T> getFavorite(Class<T> type){
-		return type.cast(favorites.get(type));
+	private final String symbol;
+	ExtendedOperation(String symbol){
+		this.symbol = symbol;
 	}
+	@Override
+	public String toString(){ return symbol; }
 }
 ```
+## Item 41:  Use marker interfaces to define types ##
+Marker interface in Java is interfaces with no field or methods or in simple word empty interface in java is called **marker interface**.
+
+A marker interface is an interface that contains no method declarations, but "marks" a class that implements the interface as having some property.
+
+When your class implements java.io.Serializable interface it becomes Serializable in Java and gives compiler an indication that use Java Serialization mechanism to serialize this object.
+* Marker interfaces define a type that is implemented by instances of the marked class; marker annotations do not. (Catch errors in compile time).
+* They can be targeted more precisely than marker annotations.
+* It's possible to add more information to an annotation type after it is already in use.

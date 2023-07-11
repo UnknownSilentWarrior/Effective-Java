@@ -7,8 +7,7 @@ import java.io.IOException;
 public class TryWithResourcesCatch  {
   // try-with-resources with a catch clause  (Page 36)
   static String firstLineOfFile(String path, String defaultVal) {
-    try (BufferedReader br = new BufferedReader(
-            new FileReader(path))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(path))) {
       return br.readLine();
     } catch (IOException e) {
       return defaultVal;

@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class ForwardingSet<E> implements Set<E> {
+
+  // Prefer approach: composite over inheritance
   private final Set<E> s;
 
   public ForwardingSet(Set<E> s) {
