@@ -20,7 +20,7 @@ service.execute(() -> action());
 When method reference are shorter and clearer, use them; where they aren't, stick with lambdas
 
 ## Item 46: Use side-effect-free function object  ##
-`forEach` should **only** be used to report the result of a computation performed by a stream, not to perform the computation.
+`forEach` should **only** be used to __report the result__ of a computation performed by a stream, __not to perform the computation__.
 
 Side-effect-free functions:
 * `toList`
