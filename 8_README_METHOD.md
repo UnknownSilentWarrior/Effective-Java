@@ -38,7 +38,7 @@ First Attack. Because the client keep a copy (pointer) of the parameter, it can 
 	Period p = new Period(start, end);
 	end.setYear(78)// Modifies internal of p!
 ```
-Make a defensive copy of each mutable parameter to the constructor.
+__Make a defensive copy of each mutable parameter to the constructor.__
 ```java
 	public Period(Date start, Date end) {
 		this.start = new Date(start.getTime());
@@ -56,7 +56,7 @@ Second Attack. Because the accessors returns the object used in the Period class
 	Period p = new Period(start, end);
 	p.end.setYear(78)// Modifies internal of p!
 ```
-Return defensive copies of mutable internal fields.
+__Return defensive copies of mutable internal fields.__
 ```java
 	public Date start(){
 		return new Date(start.getTime());
