@@ -31,7 +31,7 @@ You must program defensively, with the assumption that clients of your class wil
 		...
 	}
 ```
-Attack. Because the client keep a copy (pointer) of the parameter, it can always change it after the constructor.
+First Attack. Because the client keep a copy (pointer) of the parameter, it can always change it after the constructor.
 ```java
 	Date start = new Date();
 	Date end = new Date();
