@@ -85,7 +85,7 @@ Return an immutable empty array instead of null
 		return cheesesInStock.toArray(EMPTY_CHEESE_ARRAY);
 	}
 ```
-In Collections emptySet, emptyList and emptyMap methods do the same job.
+In Collections __emptySet__, __emptyList__ and __emptyMap__ methods do the same job.
 ```java
 // The right way to return a copy of a collection
 public List<Cheese> getCheeseList() {
