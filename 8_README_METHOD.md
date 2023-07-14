@@ -114,8 +114,8 @@ An `Optional` returning method is more flexible and easier to use than one that 
 ```
 Altenate approache
 ```java
-	// Returns maximum value in collection - throws exception if empty
-  public static <E extends Comparable<E> Optional<E> max(Collection<E> c) {
+  // Returns maximum value in collection - throws exception if empty
+  public static <E extends Comparable<E>> Optional<E> max(Collection<E> c) {
     if (c.isEmpty())
       return Optional.empty();
 
