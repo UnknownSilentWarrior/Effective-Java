@@ -42,17 +42,17 @@ enum PayrollDay{
 Never derive a value of an enum to its ordinal
 ```java
 public enum Ensemble{
-	SOLO, DUET, TRIO...;
-	public int numberOfMusicians() {return ordinal() + 1}
+  SOLO, DUET, TRIO...;
+  public int numberOfMusicians() {return ordinal() + 1}
 }
 ```
 Better approach
 ```java
 public enum Ensemble{
-	SOLO(1), DUET(2), TRIO(3)...TRIPLE_QUARTET(12);
-	private final int numberOfMusicians;
-	Ensemble(int size) {this.numberOfMusicians = size;}
-	public int numberOfMusicians() {return numberOfMusicians;}
+  SOLO(1), DUET(2), TRIO(3)...TRIPLE_QUARTET(12);
+  private final int numberOfMusicians;
+  Ensemble(int size) {this.numberOfMusicians = size;}
+  public int numberOfMusicians() {return numberOfMusicians;}
 }
 ```
 
@@ -64,7 +64,7 @@ Benefit of EnumSet
 * Implementation Specific Benefits: EnumSet's implementation using RegularEnumSet and JumboEnumSet provides many benefits
 . All the methods in EnumSet are implemented using these classes and the methods are optimized for the best performance.
 ```java
-	public class Text{
+public class Text{
   public enum Style { BOLD, ITALIC, UNDERLINE, STRIKETHROUGH }
 
   //Any Set could be passed. Best EnumSet
