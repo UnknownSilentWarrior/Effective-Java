@@ -28,33 +28,33 @@ You must program defensively, with the assumption that clients of your class wil
     public Date end(){
       return end;
     }
-...
-	}
+    ...
+}
 ```
 First Attack. Because the client keep a copy (pointer) of the parameter, it can always change it after the constructor.
 ```java
-	Date start = new Date();
-	Date end = new Date();
-	Period p = new Period(start, end);
-	end.setYear(78)// Modifies internal of p!
+Date start = new Date();
+Date end = new Date();
+Period p = new Period(start, end);
+end.setYear(78)// Modifies internal of p!
 ```
 __Make a defensive copy of each mutable parameter to the constructor.__
 ```java
-	public Period(Date start, Date end) {
-		this.start = new Date(start.getTime());
-		this.end = new Date(end.getTime());
-		if(start.compare(end) > 0)
-			throw new IllegalArgumentException(start + " after " + end );
-		}
+public Period(Date start, Date end) {
+  this.start = new Date(start.getTime());
+  this.end = new Date(end.getTime());
+  if(start.compare(end) > 0)
+    throw new IllegalArgumentException(start + " after " + end );
+}
 ```
 Do not use clone method to make a defensive copy of a parameter whose type is subclass-able by untrusted parties.
 
 Second Attack. Because the accessors returns the object used in the Period class, the client can change its value without passing the constrains.
 ```java
-	Date start = new Date();
-	Date end = new Date();
-	Period p = new Period(start, end);
-	p.end.setYear(78)// Modifies internal of p!
+Date start = new Date();
+Date end = new Date();
+Period p = new Period(start, end);
+p.end.setYear(78)// Modifies internal of p!
 ```
 __Return defensive copies of mutable internal fields.__
 ```java
