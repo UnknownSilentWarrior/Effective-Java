@@ -58,13 +58,13 @@ p.end.setYear(78)// Modifies internal of p!
 ```
 __Return defensive copies of mutable internal fields.__
 ```java
-	public Date start(){
-		return new Date(start.getTime());
-	}
+public Date start(){
+  return new Date(start.getTime());
+}
 
-	public Date end(){
-		return new Date(end.getTime());
-	}
+public Date end(){
+  return new Date(end.getTime());
+}
 ```
 Preferable is to use immutable objects(Item 15)
 
@@ -73,17 +73,17 @@ There is no reason ever to return null from an array- or collection-valued metho
 
 Return an immutable empty array instead of null
 ```java
-	// The right way to return an array from a collection
-	private final List<Cheese> cheesesInStock = ...;
+// The right way to return an array from a collection
+private final List<Cheese> cheesesInStock = ...;
 
-	private static final Cheese[] EMPTY_CHEESE_ARRAY = new Cheese[0];
+private static final Cheese[] EMPTY_CHEESE_ARRAY = new Cheese[0];
 
-	/**
-	* @return an array containing all of the cheeses in the shop.
-	*/
-	public Cheese[] getCheeses() {
-		return cheesesInStock.toArray(EMPTY_CHEESE_ARRAY);
-	}
+/**
+* @return an array containing all of the cheeses in the shop.
+*/
+public Cheese[] getCheeses() {
+  return cheesesInStock.toArray(EMPTY_CHEESE_ARRAY);
+}
 ```
 In Collections __emptySet__, __emptyList__ and __emptyMap__ methods do the same job.
 ```java
