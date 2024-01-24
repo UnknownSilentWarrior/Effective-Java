@@ -150,8 +150,8 @@ public enum ExtendedOperation implements Operation{
   REMAINDER("%"){
     public double apply(double x, double y) {return x % y}
   }
-
   private final String symbol;
+
   ExtendedOperation(String symbol){
     this.symbol = symbol;
   }
