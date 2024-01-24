@@ -146,7 +146,7 @@ BasicOperation is not extensible, but the interface type Operation is, and it is
 public enum ExtendedOperation implements Operation{
   EXP("^"){
     public double apply(double x, double y) {return Math.pow(x,y)}
-  }
+  },
   REMAINDER("%"){
     public double apply(double x, double y) {return x % y}
   }
