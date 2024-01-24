@@ -144,19 +144,19 @@ BasicOperation is not extensible, but the interface type Operation is, and it is
 ```java
 
 public enum ExtendedOperation implements Operation{
-	EXP("^"){
-		public double apply(double x, double y) {return Math.pow(x,y)}
-	}
-	REMAINDER("%"){
-		public double apply(double x, double y) {return x % y}
-	}
+  EXP("^"){
+    public double apply(double x, double y) {return Math.pow(x,y)}
+  }
+  REMAINDER("%"){
+    public double apply(double x, double y) {return x % y}
+  }
 
-	private final String symbol;
-	ExtendedOperation(String symbol){
-		this.symbol = symbol;
-	}
-	@Override
-	public String toString(){ return symbol; }
+  private final String symbol;
+  ExtendedOperation(String symbol){
+    this.symbol = symbol;
+  }
+  @Override
+  public String toString(){ return symbol; }
 }
 ```
 ## Item 41:  Use marker interfaces to define types ##
